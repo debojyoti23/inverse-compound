@@ -1,16 +1,14 @@
-function U = decompose_Comp_EigVec(V,n,k)
-    % this function decomposes the k-compound V of n dimensional eigenvectors
-    % to recover the base Eigenvectors U
+function [U, W_Mat] = decompose_Comp_EigVec(V,n,k)
+    % this function recovers U from V = compound(U,k), each column of U represents an eigenvector
+    % Assumes full rank. Works for k<=ceil(n/2)
     
     tol = 1e-8;
-
     % Construct a matrix for each vector vi = comp(ui1,...,uik) such
     % that its nullspace is span(ui1,...,uik)
     W_Mat = zeros(nchoosek(n,k+1),n,size(V,2));
     for i=1:size(V,2)
         W_Mat(:,:,i) = wedge2matrix(V(:,i), n, k);
     end
-    
     % Recover Eigenvectors
     U = zeros(n,n);
     counter = 0;

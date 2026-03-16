@@ -9,7 +9,13 @@ if n ~= m
 end
 
 idx = nchoosek(1:n,k);
-Adj = zeros(size(idx,1));
+
+if isa(A, 'sym')
+    Adj = sym(zeros(size(idx,1)));
+else
+    Adj = zeros(size(idx,1));
+end
+% Adj = zeros(size(idx,1));
 
 for i = 1:size(idx,1)
     for j = 1:size(idx,1)

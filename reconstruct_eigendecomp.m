@@ -3,28 +3,41 @@ clc;
 
 %-------------------- Input Square base matrix A------------------
 n = 6; 
-k = 2; % Keep k<=n/2
+k = 4;
+% A = diag([2 2 3 1])
 % A = rand(n);
-% Create A with real eigenvalues and eigenvector
+% Create A with real eigenvalues and eigenvector. A full rank and
+% diagonalizable. Non-distinct eigenvalues might fail
 U0 = rand(n);
 U0 = normalize(U0,'norm',2);
 % D0 = diag(rand(n,1));
-D0 = diag([5 13 4 -6 8 -1]);
+D0 = diag([5 1 1 -1 2 6]);
 A = U0 * D0 * inv(U0)
 %-----------------------------------------------------------------
 
-tol = 1e-8;
+tol = 1e-10;
 [n,~] = size(A);
 [U, D1] = eig(A);
 
 CA = compound(A,k);
+
 [V, D2] = eig(CA);
 [~,idx] = sort(abs(diag(D2)),'descend');
 V = V(:,idx);
 d2 = diag(D2);
 D2 = diag(d2(idx));
 
-U_rec = decompose_Comp_EigVec(V, n, k);
+if ~ (k>1 & k<n)
+    error("k must be > 1 and < %d",n);
+end
+
+% Check if A full rank
+if min(abs(diag(D2))) < tol
+    error('Error! Base matrix A is not full rank')
+end
+
+% [U_rec, W_Mat] = decompose_Comp_EigVec(V, n, k);
+[U_rec, W_Mat] = decompose_Comp_EigVec_1(V, n, k, n);
 
 % Recover a correct order of the compound eigenvectors
 P = zeros(1,size(V,2));
