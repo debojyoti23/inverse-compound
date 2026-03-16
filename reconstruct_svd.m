@@ -9,7 +9,7 @@ A(:,3) = A(:,4)+ 0.5 * A(:,5);
 % A = [1 0 0 0; 0 1 0 0; 0 0 0 1; 0 0 0 0];
 % A = diag([4,1,3,2,1]);
 
-% Create a perturbation matrix of same dimension of A
+% Create a perturbation matrix Q
 Q = rand(size(A,1),size(A,1));
 Q1 = compound(Q,k);
 
