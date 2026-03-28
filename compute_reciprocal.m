@@ -1,7 +1,7 @@
 function [Uk_rcp, k_out] = compute_reciprocal(Uk,n,k)
     % this function computes C_k(U) from given C_{n-k}(U) where U is
     % non-singular square matrix and full rank using the formula C_k(A) =
-    % (detA)^(-1) SP(C_{n-k}^T)^{-1} PS
+    % (detA) SP(C_{n-k}^T)^{-1} PS
 
     C = nchoosek(1:n,k);
     P = fliplr(eye(size(Uk)));
